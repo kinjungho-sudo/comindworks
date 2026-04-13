@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_UDGuMkEeAooMt7o0P1XlZoN89uf6",
+  "orgId": "team_xZNq0Dux2CuYSqwtgHmjK5vL",
+  "projectName": "comindworks",
+  "settings": {
+    "createdAt": 1776053758109,
+    "framework": "services",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
