@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useOfficeStore } from '../../stores/useOfficeStore'
 import { useAgentStore } from '../../stores/useAgentStore'
 import { officeService } from '../../services/officeService'
 import { agentService } from '../../services/agentService'
 import { taskService } from '../../services/taskService'
 import { useRealtimeSync } from '../../hooks/useRealtimeSync'
-import { useTaskStore } from '../../stores/useTaskStore'
 import { useAuthStore } from '../../stores/useAuthStore'
 import { authService } from '../../services/authService'
 import { supabase } from '../../lib/supabase'
@@ -21,6 +20,7 @@ export default function WorkspaceLayout() {
   const { setAgents } = useAgentStore()
   const { user } = useAuthStore()
   const queryClient = useQueryClient()
+  const initializedRef = useRef(false)
 
   // 아티팩트 패널 상태
   const [artifactTask, setArtifactTask] = useState(null)
@@ -32,13 +32,14 @@ export default function WorkspaceLayout() {
   })
 
   useEffect(() => {
-    if (officesData) {
-      setOffices(officesData)
-      if (officesData.length > 0 && !currentOffice) {
-        setCurrentOffice(officesData[0])
-      }
+    if (!officesData) return
+    setOffices(officesData)
+    // 최초 1회만 currentOffice 초기화
+    if (!initializedRef.current && officesData.length > 0) {
+      setCurrentOffice(officesData[0])
+      initializedRef.current = true
     }
-  }, [officesData, currentOffice, setOffices, setCurrentOffice])
+  }, [officesData, setOffices, setCurrentOffice])
 
   // 에이전트 로드
   const { data: agentsData } = useQuery({
