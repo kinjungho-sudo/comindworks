@@ -213,10 +213,8 @@ export default function MessageThread({ onViewArtifact }) {
     setCurrentTask, addTask, appendThinkingStep,
     completeTask, failTask, setPendingApproval, clearPendingApproval, updateTaskStatus,
   } = useTaskStore()
-  const { isStreaming, streamTaskId } = useTaskStore((s) => ({
-    isStreaming: !!s.currentTask && s.currentTask?.status === 'in_progress',
-    streamTaskId: s.currentTask?.id,
-  }))
+  const isStreaming = useTaskStore((s) => !!s.currentTask && s.currentTask?.status === 'in_progress')
+  const streamTaskId = useTaskStore((s) => s.currentTask?.id)
   const queryClient = useQueryClient()
   const bottomRef = useRef(null)
   const selectedAgent = getSelectedAgent()
